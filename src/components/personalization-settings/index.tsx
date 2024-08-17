@@ -114,6 +114,17 @@ export const PersonalizationSettings: FC = () => {
           }
           label="Sports"
         />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={settings.categories.includes('entertainment')}
+              onChange={handleChange}
+              name="categories"
+              value="entertainment"
+            />
+          }
+          label="Entertainment"
+        />
       </FormGroup>
 
       <Button sx={{ marginTop: '10px' }} variant="contained" color="primary" onClick={handleSave}>
