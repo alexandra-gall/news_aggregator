@@ -3,9 +3,9 @@ import { TextField, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import styles from './styles.module.css';
 
-interface SearchBarProps {
+type SearchBarProps = {
   onSearch: (term: string) => void;
-}
+};
 
 export const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');

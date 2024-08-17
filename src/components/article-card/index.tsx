@@ -1,22 +1,11 @@
 import { FC } from 'react';
 import { Card, CardContent, CardMedia, Typography, Button } from '@mui/material';
+import { Article } from '../../models/models.ts';
 import styles from './styles.module.css';
 
-
-interface Article {
-  title: string;
-  description: string;
-  url: string;
-  urlToImage: string;
-  publishedAt: string;
-  source: {
-    name: string;
-  };
-}
-
-interface ArticleCardProps {
+type ArticleCardProps = {
   article: Article;
-}
+};
 
 export const ArticleCard: FC<ArticleCardProps> = ({ article }) => {
   return (

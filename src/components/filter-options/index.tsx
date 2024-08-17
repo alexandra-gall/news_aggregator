@@ -1,17 +1,12 @@
 import { FC } from 'react';
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { Filters } from '../../models/models.ts';
 import styles from './styles.module.css';
 
-interface Filters {
-  date: string;
-  category: string;
-  source: string;
-}
-
-interface FilterOptionsProps {
+type FilterOptionsProps = {
   onFilterChange: (filters: Partial<Filters>) => void;
   filters: Filters;
-}
+};
 
 export const FilterOptions: FC<FilterOptionsProps> = ({ onFilterChange, filters }) => {
   const handleChange = (event: SelectChangeEvent<string>) => {

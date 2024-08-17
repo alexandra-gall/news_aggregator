@@ -1,18 +1,12 @@
 import { FC, useState, useEffect, ChangeEvent } from 'react';
 import { FormGroup, FormControlLabel, Checkbox, Button, Typography } from '@mui/material';
+import { UserSettings } from '../../models/models.ts';
 import styles from './styles.module.css';
-
-type UserSettings = {
-  sources: string[];
-  categories: string[];
-  authors: string[];
-};
 
 export const PersonalizationSettings: FC = () => {
   const getInitUserSettings = (): UserSettings => ({
     sources: [],
     categories: [],
-    authors: [],
   });
   const [settings, setSettings] = useState(getInitUserSettings());
 
