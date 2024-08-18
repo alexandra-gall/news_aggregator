@@ -13,8 +13,8 @@ export class NewsApi {
         params: {
           q: query || 'general',
           category: isEmpty(category) ? null : category.join(','),
-          apiKey: API_KEY,
           country,
+          apiKey: API_KEY,
         },
       });
       return response.data.articles.map(NewsApi.transformArticle);
@@ -24,12 +24,14 @@ export class NewsApi {
     }
   };
 
-  static searchNews = async (query: string, language: string = 'en'): Promise<Article[]> => {
+  static searchNews = async (query: string, source?: string, from?: string, language: string = 'en'): Promise<Article[]> => {
     try {
       const response = await axios.get<NewsApiResponse>(`${BASE_URL}/everything`, {
         params: {
           q: query,
           language,
+          source,
+          from,
           apiKey: API_KEY,
           pageSize: 20,
         },

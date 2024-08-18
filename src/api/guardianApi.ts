@@ -23,12 +23,14 @@ export class GuardianApi {
     }
   };
 
-  static searchGuardian = async (query: string, pageSize: number = 20): Promise<Article[]> => {
+  static searchGuardian = async (query: string, section?: string, fromDate?: string, pageSize: number = 20): Promise<Article[]> => {
     try {
       const response = await axios.get<GuardianApiResponse>(`${BASE_URL}/search`, {
         params: {
           'api-key': API_KEY,
           q: query,
+          section: section ? section : null,
+          'from-date': fromDate ? fromDate : null,
           'page-size': pageSize,
           'show-fields': 'thumbnail,trailText',
         },

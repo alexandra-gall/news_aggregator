@@ -8,6 +8,8 @@ const BASE_URL = import.meta.env.VITE_NYTIMES_API_URL;
 export class NYTimesApi {
   static searchNYTimes = async (
     query: string,
+    section?: string,
+    beginDate?: string,
     page: number = 0,
     sort: 'newest' | 'oldest' | 'relevance' = 'newest',
   ): Promise<Article[]> => {
@@ -16,6 +18,8 @@ export class NYTimesApi {
         params: {
           'api-key': API_KEY,
           q: query,
+          fq: section ? `section_name:"${section}"` : null,
+          begin_date: beginDate ? beginDate : null,
           page,
           sort,
         },
@@ -23,46 +27,6 @@ export class NYTimesApi {
       return response.data.response.docs.map(NYTimesApi.transformArticle);
     } catch (error) {
       console.error('Error searching NY Times:', error);
-      return [];
-    }
-  };
-
-  static getArticlesBySection = async (
-    section: string,
-    page: number = 0,
-  ): Promise<Article[]> => {
-    try {
-      const response = await axios.get<NYTimesApiResponse>(`${BASE_URL}/articlesearch.json`, {
-        params: {
-          'api-key': API_KEY,
-          fq: `section_name:"${section}"`,
-          page,
-        },
-      });
-      return response.data.response.docs.map(NYTimesApi.transformArticle);
-    } catch (error) {
-      console.error('Error fetching NY Times articles by section:', error);
-      return [];
-    }
-  };
-
-  static getArticlesByDate = async (
-    beginDate: string, // format: YYYYMMDD
-    endDate: string, // format: YYYYMMDD
-    page: number = 0,
-  ): Promise<Article[]> => {
-    try {
-      const response = await axios.get<NYTimesApiResponse>(`${BASE_URL}/articlesearch.json`, {
-        params: {
-          'api-key': API_KEY,
-          begin_date: beginDate,
-          end_date: endDate,
-          page,
-        },
-      });
-      return response.data.response.docs.map(NYTimesApi.transformArticle);
-    } catch (error) {
-      console.error('Error fetching NY Times articles by date:', error);
       return [];
     }
   };
