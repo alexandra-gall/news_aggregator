@@ -28,6 +28,9 @@ const router = createBrowserRouter(
       ],
     },
   ],
+  {
+    basename: "/news_aggregator/",
+  },
 );
 
 createRoot(document.getElementById('root')!).render(
