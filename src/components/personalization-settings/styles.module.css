@@ -1,4 +1,6 @@
 .personalizationSettings {
+    display: flex;
+    flex-direction: column;
     max-width: 400px;
     margin: 0 auto;
     padding: 2rem;

@@ -18,6 +18,6 @@ export type Filters = {
 };
 
 export type UserSettings = {
-  sources: string[];
-  categories: string[];
+  source: SourceOptions;
+  category: CategoryOptions;
 };

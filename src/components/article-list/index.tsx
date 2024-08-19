@@ -5,34 +5,27 @@ import { FilterOptions } from '../filter-options';
 import { NewsApi } from '../../api/newsApi.ts';
 import { GuardianApi } from '../../api/guardianApi.ts';
 import { NYTimesApi } from '../../api/nyTimesApi.ts';
-import { Article, CategoryOptions, DateOptions, Filters } from '../../models/models.ts';
+import { Article, Filters } from '../../models/models.ts';
 import styles from './styles.module.css';
+import { useSettings } from '../../context/useSettings.ts';
+import { calculateCategory, calculateDate } from '../../utils/calculateFilters.ts';
 
 export const ArticleList: FC = () => {
+  const { settings } = useSettings();
+  console.log('settings', settings);
   const [articles, setArticles] = useState<Article[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({
     date: 'all',
-    category: 'all',
-    source: 'all',
+    ...settings,
   });
 
-  const calculateCategory = (category: CategoryOptions): string => {
-    return category === 'all' ? '' : category;
-  };
-
-  const calculateDate = (date: DateOptions): string => {
-    switch (date) {
-      case 'all':
-        return '';
-      case '1':
-        return new Date(Date.now() - 86400 * 1000).toISOString();
-      case '7':
-        return new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-      case '30':
-        return new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-    }
-  };
+  useEffect(() => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      ...settings,
+    }));
+  }, [settings]);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -68,7 +61,7 @@ export const ArticleList: FC = () => {
     };
 
     fetchArticles();
-  }, [filters.date, filters.category, filters.source, searchTerm]);
+  }, [filters, searchTerm]);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);

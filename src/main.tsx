@@ -8,6 +8,7 @@ import App from './App.tsx';
 import { ArticleList } from './components/article-list';
 import { PersonalizationSettings } from './components/personalization-settings';
 import { ErrorPage } from './components/error-page';
+import { SettingsProvider } from './context/settings-context.tsx';
 
 const router = createBrowserRouter(
   [
@@ -31,6 +32,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <SettingsProvider>
+      <RouterProvider router={router} />
+    </SettingsProvider>
   </StrictMode>,
 );
