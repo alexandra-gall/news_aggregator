@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Card, CardContent, CardMedia, Typography, Button } from '@mui/material';
 import { Article } from '../../models/models.ts';
+import placeholderImage from '../../assets/images/news-placeholder-image.svg?url';
 import styles from './styles.module.css';
 
 type ArticleCardProps = {
@@ -13,7 +14,7 @@ export const ArticleCard: FC<ArticleCardProps> = ({ article }) => {
       <CardMedia
         component="img"
         height="140"
-        image={article.urlToImage || 'https://via.placeholder.com/300x200'}
+        image={article.urlToImage || placeholderImage}
         alt={article.title}
       />
       <CardContent>

@@ -12,7 +12,7 @@ import { calculateCategory, calculateDate } from '../../utils/calculateFilters.t
 
 export const ArticleList: FC = () => {
   const { settings } = useSettings();
-  console.log('settings', settings);
+
   const [articles, setArticles] = useState<Article[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({
