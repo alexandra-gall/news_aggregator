@@ -5,10 +5,10 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import App from './App.tsx';
-import { ArticleList } from './components/article-list';
-import { PersonalizationSettings } from './components/personalization-settings';
-import { ErrorPage } from './components/error-page';
-import { SettingsProvider } from './context/settings-context.tsx';
+import { ArticleList } from './components/ArticleList';
+import { PersonalizationSettings } from './components/PersonalizationSettings';
+import { ErrorPage } from './components/ErrorPage';
+import { SettingsProvider } from './context/SettingsContext.tsx';
 
 const router = createBrowserRouter(
   [

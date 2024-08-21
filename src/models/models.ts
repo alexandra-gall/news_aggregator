@@ -8,16 +8,19 @@ export type Article = {
 };
 
 export type DateOptions = 'all' | '1' | '7' | '30';
-export type CategoryOptions = 'all' | 'business' | 'technology' | 'sports' | 'entertainment';
-export type SourceOptions = 'all' | 'gardian' | 'the-new-york-times' | 'news-api';
+export type CategoryOptions = 'all' | 'science' | 'technology' | 'sports' | 'food' | 'travel';
+export type SourceOptions = 'all' | 'guardian' | 'the-new-york-times' | 'news-api';
 
-export type Filters = {
+export interface UserSettings {
+  source: SourceOptions;
+  category: CategoryOptions;
+}
+
+export interface Filters extends UserSettings {
   date: DateOptions;
-  category: CategoryOptions;
-  source: SourceOptions;
-};
+}
 
-export type UserSettings = {
-  source: SourceOptions;
-  category: CategoryOptions;
-};
+export type Options = {
+  value: DateOptions | CategoryOptions | SourceOptions;
+  name: string;
+}

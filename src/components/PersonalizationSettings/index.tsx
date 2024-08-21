@@ -7,29 +7,10 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { CategoryOptions, SourceOptions } from '../../models/models.ts';
-import styles from './styles.module.css';
 import { useSettings } from '../../context/useSettings.ts';
-
-type RadioButtonOptions = {
-  value: CategoryOptions | SourceOptions;
-  name: string;
-}
-
-const categoryOptions: RadioButtonOptions[] = [
-  { value: 'all', name: 'All' },
-  { value: 'business', name: 'Business' },
-  { value: 'technology', name: 'Technology' },
-  { value: 'sports', name: 'Sports' },
-  { value: 'entertainment', name: 'Entertainment' },
-];
-
-const sourceOptions: RadioButtonOptions[] = [
-  { value: 'all', name: 'All' },
-  { value: 'gardian', name: 'The Guardian' },
-  { value: 'the-new-york-times', name: 'The New York Times' },
-  { value: 'news-api', name: 'News from different sources' },
-];
+import { sourceOptions } from '../../utils/constants/source.constants.ts';
+import { categoryOptions } from '../../utils/constants/categories.constants.ts';
+import styles from './styles.module.css';
 
 export const PersonalizationSettings: FC = () => {
   const { settings, updateSettings } = useSettings();

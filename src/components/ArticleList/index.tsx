@@ -1,14 +1,14 @@
-import { FC, useState, useEffect } from 'react';
-import { ArticleCard } from '../article-card';
-import { SearchBar } from '../search-bar';
-import { FilterOptions } from '../filter-options';
+import { FC, useState, useEffect, useRef } from 'react';
+import { ArticleCard } from '../ArticleCard';
+import { SearchBar } from '../SearchBar';
+import { FilterOptions } from '../FilterOptions';
 import { NewsApi } from '../../api/newsApi.ts';
 import { GuardianApi } from '../../api/guardianApi.ts';
 import { NYTimesApi } from '../../api/nyTimesApi.ts';
 import { Article, Filters } from '../../models/models.ts';
-import styles from './styles.module.css';
 import { useSettings } from '../../context/useSettings.ts';
-import { calculateCategory, calculateDate } from '../../utils/calculateFilters.ts';
+import { calculateCategory, calculateDate } from '../../utils/helpers/filters.helpers.ts';
+import styles from './styles.module.css';
 
 export const ArticleList: FC = () => {
   const { settings } = useSettings();
@@ -19,6 +19,8 @@ export const ArticleList: FC = () => {
     date: 'all',
     ...settings,
   });
+
+  const hasPageBeenRendered = useRef(false);
 
   useEffect(() => {
     setFilters(prevFilters => ({
@@ -35,7 +37,7 @@ export const ArticleList: FC = () => {
         const category = calculateCategory(filters.category);
         const date = calculateDate(filters.date);
         switch (filters.source) {
-          case 'gardian':
+          case 'guardian':
             response = await GuardianApi.searchGuardian(searchTerm || 'general', category, date);
             break;
           case 'news-api':
@@ -47,7 +49,7 @@ export const ArticleList: FC = () => {
           case 'all':
             responseAll = await Promise.all(
               [
-                NewsApi.searchNews(searchTerm || 'we', category, date),
+                NewsApi.searchNews(searchTerm || 'general', category, date),
                 GuardianApi.searchGuardian(searchTerm || 'general', category, date),
                 NYTimesApi.searchNYTimes(searchTerm || 'general', category, date),
               ]);
@@ -60,7 +62,10 @@ export const ArticleList: FC = () => {
       }
     };
 
-    fetchArticles();
+    if (hasPageBeenRendered.current) {
+      fetchArticles();
+    }
+    hasPageBeenRendered.current = true;
   }, [filters, searchTerm]);
 
   const handleSearch = (term: string) => {
