@@ -25,19 +25,24 @@ export type NYTimesApiResponse = {
   };
 };
 
-// News api
+// The News api
 export type NewsApiArticle = {
+  uuid: string;
   title: string;
   description: string;
   url: string;
-  urlToImage: string;
-  publishedAt: string;
+  image_url: string;
+  published_at: string;
 };
 
 export type NewsApiResponse = {
-  articles: NewsApiArticle[];
-  status: string;
-  totalResults: number;
+  data: NewsApiArticle[];
+  meta: {
+    found: number;
+    returned: number;
+    limit: number;
+    page: number;
+  };
 };
 
 // The Guardian

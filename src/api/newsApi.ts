@@ -1,5 +1,4 @@
 import axios from 'axios';
-import isEmpty from 'lodash/isEmpty';
 import { NewsApiArticle, NewsApiResponse } from './models.ts';
 import { Article } from '../models/models.ts';
 
@@ -7,36 +6,24 @@ const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 const BASE_URL = import.meta.env.VITE_NEWS_API_URL;
 
 export class NewsApi {
-  static getTopHeadlines = async (query: string, country: string = 'us', category: string[]): Promise<Article[]> => {
+  static searchNews = async (search: string, category?: string, published_after?: string): Promise<Article[]> => {
     try {
-      const response = await axios.get<NewsApiResponse>(`${BASE_URL}/top-headlines`, {
+      let updatedCategory;
+      if (category) {
+        updatedCategory = category === 'technology' ? 'tech' : category;
+      } else {
+        updatedCategory = null;
+      }
+      const response = await axios.get<NewsApiResponse>(`${BASE_URL}/all`, {
         params: {
-          q: query || 'general',
-          category: isEmpty(category) ? null : category.join(','),
-          country,
-          apiKey: API_KEY,
+          api_token: API_KEY,
+          search,
+          categories: updatedCategory,
+          published_after: published_after ? published_after : null,
+          limit: 3,
         },
       });
-      return response.data.articles.map(NewsApi.transformArticle);
-    } catch (error) {
-      console.error('Error fetching top headlines:', error);
-      return [];
-    }
-  };
-
-  static searchNews = async (query: string, source?: string, from?: string, language: string = 'en'): Promise<Article[]> => {
-    try {
-      const response = await axios.get<NewsApiResponse>(`${BASE_URL}/everything`, {
-        params: {
-          q: query,
-          language,
-          source,
-          from,
-          apiKey: API_KEY,
-          pageSize: 20,
-        },
-      });
-      return response.data.articles.map(NewsApi.transformArticle);
+      return response.data.data.map(NewsApi.transformArticle);
     } catch (error) {
       console.error('Error searching news:', error);
       return [];
@@ -44,7 +31,9 @@ export class NewsApi {
   };
 
   private static transformArticle = (article: NewsApiArticle): Article => ({
-    id: article.url,
+    id: article.uuid,
+    urlToImage: article.image_url,
+    publishedAt: article.published_at,
     ...article,
   });
 }
