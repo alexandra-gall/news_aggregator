@@ -25,7 +25,7 @@ This project integrates with the following news APIs:
 
 1. The Guardian API
 2. New York Times API
-3. NewsAPI.org
+3. The NewsAPI.com
 
 ## Setup and Installation
 
